@@ -60,7 +60,7 @@ class App extends Component {
         <Flex bg="violet" m={0}>
           <Box flex={1} color="text" bg="violet">
             <Box flex={1} color="text" bg="gray">
-              <Heading>Exercise Tracke</Heading>
+              <Heading>Exercise Tracker</Heading>
               {/* <nav p={3} bg="#eee" position="relative"> */}
               <NavLink to="/">Home</NavLink>{" "}
               <NavLink to="dashboard">Dashboard</NavLink>{" "}

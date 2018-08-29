@@ -41,7 +41,8 @@ const corsOptions = {
         // callback(new Error("Not allowed by CORS"));
       }
     } else {
-      callback(new Error("Can't detect Origin!!!"));
+      // callback(new Error("Can't detect Origin!!!"));
+      callback(null, true);
     }
   },
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
