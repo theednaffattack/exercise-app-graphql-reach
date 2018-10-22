@@ -18,13 +18,6 @@ const resolvers = require("./graphql/resolvers");
 
 const { log } = console;
 
-// const bottomLabel = log(
-//   chalk
-//     .bgHex("#89CFF0")
-//     .hex("#36454F")
-//     .bold("\n   👍🏾   inside POST /api/exercises/add   👍🏾  \n")
-// );
-
 const whitelist = [
   "http://localhost:7070",
   "http://evil.com/",
