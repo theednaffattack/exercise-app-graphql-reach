@@ -9,16 +9,21 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const { ApolloServer, gql } = require('apollo-server-express');
+
 const myNetworkInterfaces = require("./helpers/networkInterfaces");
+
+const typeDefs = require("./graphql/schema");
+const resolvers = require("./graphql/resolvers");
 
 const { log } = console;
 
-const bottomLabel = log(
-  chalk
-    .bgHex("#89CFF0")
-    .hex("#36454F")
-    .bold("\n   👍🏾   inside POST /api/exercises/add   👍🏾  \n")
-);
+// const bottomLabel = log(
+//   chalk
+//     .bgHex("#89CFF0")
+//     .hex("#36454F")
+//     .bold("\n   👍🏾   inside POST /api/exercises/add   👍🏾  \n")
+// );
 
 const whitelist = [
   "http://localhost:7070",
@@ -57,8 +62,40 @@ const connectionString = process.env.MONGO_ATLAS_CONNECTION_STRING;
 
 const port = process.env.PORT || 8080;
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(cors(corsOptions));
+// // The GraphQL schema
+// const typeDefs = gql`
+//   type Query {
+//     "A simple type for getting started!"
+//     hello: String
+//   }
+// `;
+
+// // A map of functions which return data for the schema.
+// const resolvers = {
+//   Query: {
+//     hello: () => 'world'
+//   }
+// };
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  playground: {
+    // settings: {
+    //   'editor.theme': 'light',
+    // },
+    // tabs: [
+    //   {
+    //     endpoint,
+    //     query: defaultQuery,
+    //   },
+    // ],
+  },
+});
+
+
+server.applyMiddleware({ app });
+
 app.use(express.static("dist"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -295,6 +332,16 @@ const listener = app.listen(process.env.PORT, function() {
         }:${port}              `
       )
   );
+  log(
+    chalk
+      .bgHex("#FF69B4")
+      .hex("#36454F")
+      .bold(
+        `              Your playground can be found at http://${
+          myNetworkInterfaces[0].address
+        }:${port}/graphql      `
+      )
+  );
 });
 
 // connect to mongoose
@@ -310,6 +357,12 @@ const db = mongoose.connect(
 db.then(
   database => {
     console.log("we're connected to mongoDB!");
+    log(Date.now())
+    // log(
+    //   `
+    //   host: ${database.connections[0]}
+    //   `
+    // )
   },
   err => {
     console.error(err);

@@ -133,7 +133,7 @@ const UriForm = props => {
           {isSubmitting ? "WAIT PLZ" : "SUBMIT"}
         </SubmitButton> */}
         <ButtonOutline mx={1} my={3} color="indigo">
-          {isSubmitting ? "WAIT PLZ" : "SUBMIT"}
+          {isSubmitting ? "WAIT PLEASE" : "SUBMIT"}
         </ButtonOutline>
         <DisplayFormikState {...props} />
       </form>
