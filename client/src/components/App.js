@@ -3,6 +3,10 @@ import { Box, Flex, Heading, Position, Provider } from "rebass";
 import posed, { PoseGroup } from "react-pose";
 import { Router, Link, Location } from "@reach/router";
 import { injectGlobal, styled } from "styled-components";
+// import { ApolloProvider } from 'react-apollo';
+// import { ApolloClient } from 'apollo-boost';
+
+// const client = new ApolloClient();
 
 import theme from "../styles/theme";
 import "../styles/App.css";
@@ -56,28 +60,28 @@ const NavLink = props => (
 class App extends Component {
   render() {
     return (
-      <Provider theme={theme}>
-        <Flex bg="violet" m={0}>
-          <Box flex={1} color="text" bg="violet">
-            <Box flex={1} color="text" bg="gray">
-              <Heading>Exercise Tracker</Heading>
-              {/* <nav p={3} bg="#eee" position="relative"> */}
-              <NavLink to="/">Home</NavLink>{" "}
-              <NavLink to="dashboard">Dashboard</NavLink>{" "}
-              <NavLink to="api/exercise">Exercise</NavLink>{" "}
-              <NavLink to="api/exercises/newUser">User</NavLink>{" "}
-              <NavLink to="api/exercises/add">Add Exercise</NavLink>
+        <Provider theme={theme} height="100%">
+          <Flex bg="violet" m={0} height="100%">
+            <Box flex={1} color="text" bg="violet">
+              <Box flex={1} px={4} color="text" bg="gray">
+                <Heading>Exercise Tracker</Heading>
+                <NavLink to="/">Home</NavLink>{" "}
+                <NavLink to="dashboard">Dashboard</NavLink>{" "}
+                <NavLink to="api/exercises">Exercises</NavLink>{" "}
+                <NavLink to="api/exercises/newUser">User</NavLink>{" "}
+                <NavLink to="api/exercises/add">Add Exercise</NavLink>
+              </Box>
+              {/* </nav> */}
+              <PosedRouter>
+                <Home path="/" />
+                <Dashboard path="dashboard" />
+                <Exercises path="api/exercises" />
+                <AddExercise path="api/exercises/add" />
+                <AddUser path="api/exercises/newUser" />
+              </PosedRouter>
             </Box>
-            {/* </nav> */}
-            <PosedRouter>
-              <Home path="/" />
-              <Dashboard path="dashboard" />
-              <AddExercise path="api/exercises/add" />
-              <AddUser path="api/exercises/newUser" />
-            </PosedRouter>
-          </Box>
-        </Flex>
-      </Provider>
+          </Flex>
+        </Provider>
     );
   }
 }

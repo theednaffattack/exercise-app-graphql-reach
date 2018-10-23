@@ -7,8 +7,8 @@ const FindExercisesByDate = (from, to, limit) => {
   console.log(limit)
   let query = Exercise.find({
     createdAt: {
-      $gte: new Date(2018, 9, 18), 
-      $lt: new Date(2018, 9, 22)
+      $gte: new Date(from), 
+      $lt: new Date(to)
     }
   })
   .limit(limit)

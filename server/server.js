@@ -314,8 +314,8 @@ var network = require("network");
 
 // ROUTES
 // listen for requests :)
-const listener = app.listen(process.env.PORT, function() {
-  log(
+app.listen(process.env.PORT, function() {
+  myNetworkInterfaces[0] ? log(
     chalk
       .bgHex("#FFCC00")
       .hex("#36454F")
@@ -324,8 +324,8 @@ const listener = app.listen(process.env.PORT, function() {
           myNetworkInterfaces[0].address
         }:${port}              `
       )
-  );
-  log(
+  ) : log("No network! http://localhost:" + port);
+  myNetworkInterfaces[0] ? log(
     chalk
       .bgHex("#FF69B4")
       .hex("#36454F")
@@ -334,7 +334,7 @@ const listener = app.listen(process.env.PORT, function() {
           myNetworkInterfaces[0].address
         }:${port}/graphql      `
       )
-  );
+  ) : log("No network! http://localhost:" + port + "/graphql");
 });
 
 // connect to mongoose

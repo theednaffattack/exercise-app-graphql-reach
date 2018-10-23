@@ -1,20 +1,27 @@
+import qs from "querystring";
 import React from "react";
-// import { render } from "react-dom";
-// import Logo from "./Logo";
-// import { Router, Link } from "@reach/router";
+import { Box, Flex, Heading, Text } from "rebass";
+import { ExerciseQuery } from "./ExerciseQuery";
 
-import styled from 'styled-components'
-
-const StyledH1 = styled.h1`
-  color: green;
-`;
+// sample query params (props.location.search)
+// used for Query component
+// ?from=2018,10,21&to=2018,10,22&limit=10
 
 const Exercises = (props) => (
-  <div>
-    <StyledH1>Exercises Plural Dashboard </ StyledH1>
-    <p>I'm the parent route Exercises and Component Exercises</p>
-    {props.children}
-  </div>
+  <Box bg="blue" color="white" p={4} width={[1, 1, 1 / 2]} height="100vh">
+    <Heading f={[4, 5, 6, 7]}>Exercises</Heading>
+   <Text>From: {qs.parse(props.location.search.replace("?","")).from}</Text>
+   <Text>To: {qs.parse(props.location.search.replace("?","")).to}</Text>
+   <Text>Limit: {parseInt(qs.parse(props.location.search.replace("?","")).limit, 10)}</Text>
+    <Flex flexWrap="wrap" mx={-2}>
+      <Box px={2} py={2} width={[1, 1, 1]}>
+        <ExerciseQuery
+          from={qs.parse(props.location.search.replace("?","")).from}
+          to={qs.parse(props.location.search.replace("?","")).to}
+          limit={parseInt(qs.parse(props.location.search.replace("?","")).limit, 10)}  />
+      </Box>
+    </Flex>
+  </Box>
 );
 
 export default Exercises;
