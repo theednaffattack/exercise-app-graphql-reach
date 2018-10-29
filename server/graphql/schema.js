@@ -7,7 +7,7 @@ const typeDefs = gql`
     "A simple type for getting started!"
     hello: String
     findExercisesByDate(from: Date, to: Date, limit: Int): [Exercise]
-    user: User
+    user(id: String): User
     users: [User]
   }
 
@@ -26,12 +26,13 @@ const typeDefs = gql`
   }
   type Mutation {
     addUser(username: String, id: String): User
-    addExercise(date: String, description: String, duration: Int, userId: String): Exercise
+    addExercise(
+      date: String
+      description: String
+      duration: Int
+      userId: String
+    ): Exercise
   }
-  
 `;
 
 module.exports = typeDefs;
-
-
-

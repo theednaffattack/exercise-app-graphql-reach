@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 export default gql`
   query findExercisesByDate($from: Date, $to: Date, $limit: Int) {
@@ -16,4 +16,4 @@ export default gql`
       }
     
   }
-`
+`;

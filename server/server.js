@@ -9,7 +9,7 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const { ApolloServer, gql } = require('apollo-server-express');
+const { ApolloServer, gql } = require("apollo-server-express");
 
 const myNetworkInterfaces = require("./helpers/networkInterfaces");
 
@@ -83,9 +83,8 @@ const server = new ApolloServer({
     //     query: defaultQuery,
     //   },
     // ],
-  },
+  }
 });
-
 
 server.applyMiddleware({ app });
 
@@ -95,10 +94,8 @@ app.use(bodyParser.json());
 
 // ROUTES
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/*", function(request, response) {
-  response.sendFile(path.resolve(__dirname + "/../dist/index.html"), function(
-    err
-  ) {
+app.get("/*", (request, response) => {
+  response.sendFile(path.resolve(`${__dirname}/../dist/index.html`), err => {
     if (err) {
       res.status(500).send(err);
     }
@@ -125,11 +122,11 @@ app.get("/:hash", (req, res) => {
   });
 });
 
-app.get("/api/exercise/log", function(req, res) {
-  let userId = req.userId;
-  let from = req.from;
-  let to = req.to;
-  let limit = req.limit;
+app.get("/api/exercise/log", (req, res) => {
+  const userId = req.userId;
+  const from = req.from;
+  const to = req.to;
+  const limit = req.limit;
 
   // PSUEDO:
   // if, from, to, and limit are absent get all of the user's exercises
@@ -145,7 +142,7 @@ app.post("/api/getShortLink", (req, res, next) => {
   res.send(req.body);
 });
 
-app.post("/api/exercise/new-user", function(req, res, next) {
+app.post("/api/exercise/new-user", (req, res, next) => {
   log(
     chalk
       .bgHex("#89CFF0")
@@ -154,7 +151,7 @@ app.post("/api/exercise/new-user", function(req, res, next) {
   );
   log(req.body);
 
-  let { username } = req.body;
+  const { username } = req.body;
 
   const exerciseUser = new ExerciseUser({
     username
@@ -176,14 +173,14 @@ app.post("/api/exercise/new-user", function(req, res, next) {
     // guard-if statement to block execution if an error is detected
     if (err) return console.error(err);
 
-    let { username: usernameFromResponse, _id: userId } = doc;
+    const { username: usernameFromResponse, _id: userId } = doc;
 
     // log the doc returned from mongo?
     log(
       chalk
         .bgHex("#89CFF0")
         .hex("#36454F")
-        .bold("\n      FROM MONGO: USER    \n" + JSON.stringify(doc, null, 2))
+        .bold(`\n      FROM MONGO: USER    \n${JSON.stringify(doc, null, 2)}`)
     );
 
     // otherwise log it on the console and respond
@@ -201,7 +198,7 @@ app.post("/api/exercise/new-user", function(req, res, next) {
   });
 });
 
-app.post("/api/exercise/add", function(req, res, next) {
+app.post("/api/exercise/add", (req, res, next) => {
   log(
     chalk
       .bgHex("#89CFF0")
@@ -210,7 +207,7 @@ app.post("/api/exercise/add", function(req, res, next) {
   );
   log(req.body);
 
-  let { userId, date, description, duration } = req.body;
+  const { userId, date, description, duration } = req.body;
 
   const exercise = new Exercise({
     userId,
@@ -310,32 +307,38 @@ app.post("/shorten", (req, res, next) => {
   });
 });
 
-var network = require("network");
+const network = require("network");
 
 // ROUTES
 // listen for requests :)
-app.listen(process.env.PORT, function() {
-  myNetworkInterfaces[0] ? log(
-    chalk
-      .bgHex("#FFCC00")
-      .hex("#36454F")
-      .bold(
-        `              Your app is listening at http://${
-          myNetworkInterfaces[0].address
-        }:${port}              `
+app.listen(process.env.PORT, () => {
+  myNetworkInterfaces[0]
+    ? log(
+        chalk
+          .bgHex("#FFCC00")
+          .hex("#36454F")
+          .bold(
+            `              Your app is listening at http://${
+              myNetworkInterfaces[0].address
+            }:${port}              `
+          )
       )
-  ) : log("No network! http://localhost:" + port);
-  myNetworkInterfaces[0] ? log(
-    chalk
-      .bgHex("#FF69B4")
-      .hex("#36454F")
-      .bold(
-        `              Your playground can be found at http://${
-          myNetworkInterfaces[0].address
-        }:${port}/graphql      `
+    : log(`No network! http://localhost:${port}`);
+  myNetworkInterfaces[0]
+    ? log(
+        chalk
+          .bgHex("#FF69B4")
+          .hex("#36454F")
+          .bold(
+            `              Your playground can be found at http://${
+              myNetworkInterfaces[0].address
+            }:${port}/graphql      `
+          )
       )
-  ) : log("No network! http://localhost:" + port + "/graphql");
+    : log(`No network! http://localhost:${port}/graphql`);
 });
+
+mongoose.Promise = require("bluebird");
 
 // connect to mongoose
 // the `dbName` below is essential, the db in the connection string is now ignored
@@ -350,7 +353,7 @@ const db = mongoose.connect(
 db.then(
   database => {
     console.log("we're connected to mongoDB!");
-    log(Date.now())
+    log(Date.now());
     // log(
     //   `
     //   host: ${database.connections[0]}
